@@ -1,2 +1,2 @@
 # jmeter-lightning-maven-plugin-example
-This repo contains [JMeter Lightning Maven Plugin](https://github.com/automatictester/lightning) usage example.
+This repo contains JMeter [Lightning](https://github.com/automatictester/lightning) Maven Plugin usage example.
