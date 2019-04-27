@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <jmeter-lightning-maven-plugin.version>1.5.0</jmeter-lightning-maven-plugin.version>
+        <jmeter-lightning-maven-plugin.version>2.0.0</jmeter-lightning-maven-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
