@@ -30,21 +30,89 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <generateReports>false</generateReports>
-                    <resultsFileFormat>csv</resultsFileFormat>
+                    <overrideRootLogLevel>DEBUG</overrideRootLogLevel>
+					<downloadJMeterDependencies>false</downloadJMeterDependencies>
+                    <suppressJMeterOutput>false</suppressJMeterOutput>
+                    <ignoreResultFailures>true</ignoreResultFailures>
+					 <jmeterExtensions> 
+                        <jmeterExtension>kg.apc:jmeter-plugins-perfmon:2.0</jmeterExtension>                           
+                        <jmeterExtension>kg.apc:jmeter-plugins-graphs-basic:2.0</jmeterExtension>                           
+                    </jmeterExtensions>
+                    <generateReports>true</generateReports>
+                    <resultsFileFormat>jtl</resultsFileFormat>
                     <testResultsTimestamp>false</testResultsTimestamp>
                     <testFilesIncluded>
                         <jmeterTestFile>example.jmx</jmeterTestFile>
                     </testFilesIncluded>
                     <propertiesJMeter>
+                        <log_level.jmeter>DEBUG</log_level.jmeter>
+                        <!-- Perfmon settings -->
+                        <jmeterPlugin.perfmon.interval>4000</jmeterPlugin.perfmon.interval>  
+                        <forcePerfmonFile>${project.build.directory}/jmeter/results/VarunMisrha_perf.jtl</forcePerfmonFile >
+                        <!-- Perfmon settings -->
                         <jmeter.save.saveservice.print_field_names>true</jmeter.save.saveservice.print_field_names>
-                        <jmeter.save.saveservice.successful>true</jmeter.save.saveservice.successful>
+                        <jmeter.save.saveservice.successful>false</jmeter.save.saveservice.successful>
+                        <jmeter.save.saveservice.response_data.on_error>true</jmeter.save.saveservice.response_data.on_error>
                         <jmeter.save.saveservice.label>true</jmeter.save.saveservice.label>
                         <jmeter.save.saveservice.time>true</jmeter.save.saveservice.time>
                     </propertiesJMeter>
+                    <propertiesUser>
+                        <serverIP>localhost</serverIP>
+                        <httpPath>/abc/</httpPath>
+                        <port>8080</port>
+                    </propertiesUser>
+                </configuration>                
+            </plugin>
+
+            <plugin>
+                <groupId>com.lazerycode.jmeter</groupId>
+                <artifactId>jmeter-analysis-maven-plugin</artifactId>
+                <version>1.0.4</version>
+                <configuration>
+                    <source>${project.build.directory}/jmeter/results/varun_perf.jtl</source>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-html-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>analyze</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+			<!-- <plugin>
+                <groupId>de.codecentric</groupId>
+                <artifactId>jmeter-graph-maven-plugin</artifactId>
+                <version>0.1.0</version>
+                <executions>
+                    <execution>
+                        <id>create-graph-threads</id>
+                        <goals>
+                            <goal>create-graph</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <inputFile>${project.build.directory}/jmeter/results/example.jtl</inputFile>
+
+                     varun : check out https://jmeter-plugins.org/wiki/JMeterPluginsCMD/   for plugin types...
+
+                    <graphs>                        
+                        <graph>
+                            <pluginType>TransactionsPerSecond</pluginType>
+                            <width>800</width>
+                            <height>600</height>
+                            <outputFile>${project.build.directory}/jmeter/results/example-TransactionsPerSecond.png</outputFile>
+                        </graph>
+                   </graphs>
                 </configuration>
             </plugin>
-            <plugin>
+             -->
+            
+            <!--<plugin>
                 <groupId>uk.co.automatictester</groupId>
                 <artifactId>jmeter-lightning-maven-plugin</artifactId>
                 <version>${jmeter-lightning-maven-plugin.version}</version>
@@ -60,7 +128,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
         </plugins>
     </build>
 
