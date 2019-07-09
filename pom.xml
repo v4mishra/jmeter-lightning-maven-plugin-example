@@ -14,6 +14,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+	
+	<dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
 
     <build>
         <plugins>
@@ -21,6 +31,23 @@
                 <groupId>com.lazerycode.jmeter</groupId>
                 <artifactId>jmeter-maven-plugin</artifactId>
                 <version>2.9.0</version>
+                <!-- <dependencies>
+                    <dependency>
+                        <groupId>kg.apc</groupId>
+                        <artifactId>perfmon</artifactId>
+                        <version>2.2.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>kg.apc</groupId>
+                        <artifactId>jmeter-plugins-perfmon</artifactId>
+                        <version>2.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>eu.kratochvil.perfmon</groupId>
+                        <artifactId>perfmon-core</artifactId>
+                        <version>0.1</version>
+                    </dependency>
+                </dependencies> -->
                 <executions>
                     <execution>
                         <phase>integration-test</phase>
@@ -35,10 +62,17 @@
                     <suppressJMeterOutput>false</suppressJMeterOutput>
                     <ignoreResultFailures>true</ignoreResultFailures>
 					 <jmeterExtensions> 
-                        <jmeterExtension>kg.apc:jmeter-plugins-perfmon:2.0</jmeterExtension>                           
-                        <jmeterExtension>kg.apc:jmeter-plugins-graphs-basic:2.0</jmeterExtension>                           
+
+                        <jmeterExtension>kg.apc:jmeter-plugins-perfmon:2.1</jmeterExtension>                           
+                        <!-- <jmeterExtension>de.codecentric:jmeter-graph-maven-plugin:0.1.0</jmeterExtension>                            -->
+                        <!-- <jmeterExtension>eu.kratochvil.perfmon:perfmon-core:0.1</jmeterExtension>                            -->
+                        <!-- <jmeterExtension>kg.apc:jmeter-plugins-graphs-basic:2.0</jmeterExtension>  -->
+                        <!-- <jmeterExtension>kg.apc:perfmon:2.2.2</jmeterExtension>  -->
+                        <jmeterExtension>kg.apc:jmeter-plugins-cmd:2.2</jmeterExtension> 
+                        <!-- <jmeterExtension>kg.apc:cmdrunner:1.0.1</jmeterExtension>  -->
+
                     </jmeterExtensions>
-                    <generateReports>true</generateReports>
+                    <generateReports>false</generateReports>
                     <resultsFileFormat>jtl</resultsFileFormat>
                     <testResultsTimestamp>false</testResultsTimestamp>
                     <testFilesIncluded>
@@ -55,12 +89,8 @@
                         <jmeter.save.saveservice.response_data.on_error>true</jmeter.save.saveservice.response_data.on_error>
                         <jmeter.save.saveservice.label>true</jmeter.save.saveservice.label>
                         <jmeter.save.saveservice.time>true</jmeter.save.saveservice.time>
+                        <jmeter.save.saveservice.autoflush>true</jmeter.save.saveservice.autoflush>
                     </propertiesJMeter>
-                    <propertiesUser>
-                        <serverIP>localhost</serverIP>
-                        <httpPath>/abc/</httpPath>
-                        <port>8080</port>
-                    </propertiesUser>
                 </configuration>                
             </plugin>
 
@@ -82,7 +112,7 @@
                 </executions>
             </plugin>
 
-			<!-- <plugin>
+			<plugin>
                 <groupId>de.codecentric</groupId>
                 <artifactId>jmeter-graph-maven-plugin</artifactId>
                 <version>0.1.0</version>
@@ -92,25 +122,32 @@
                         <goals>
                             <goal>create-graph</goal>
                         </goals>
-                        <phase>verify</phase>
+                        <phase>post-integration-test</phase>
                     </execution>
                 </executions>
                 <configuration>
-                    <inputFile>${project.build.directory}/jmeter/results/example.jtl</inputFile>
+                    <!-- <inputFile>${project.build.directory}/jmeter/results/example.jtl</inputFile> -->
+                    <inputFile>${project.build.directory}/jmeter/results/mishra_perf.csv</inputFile>
 
-                     varun : check out https://jmeter-plugins.org/wiki/JMeterPluginsCMD/   for plugin types...
+                     <!-- varun : check out https://jmeter-plugins.org/wiki/JMeterPluginsCMD/   for plugin types... -->
 
                     <graphs>                        
                         <graph>
-                            <pluginType>TransactionsPerSecond</pluginType>
+                            <pluginType>PerfMon</pluginType>
                             <width>800</width>
                             <height>600</height>
-                            <outputFile>${project.build.directory}/jmeter/results/example-TransactionsPerSecond.png</outputFile>
+                            <outputFile>${project.build.directory}/jmeter/results/perfmonChart.png</outputFile>
                         </graph>
+                        <!-- <graph>
+                            <pluginType>ResponseTimesOverTime</pluginType>
+                            <width>800</width>
+                            <height>600</height>
+                            <outputFile>${project.build.directory}/jmeter/results/example-ResponseTimesOverTime.png</outputFile>
+                        </graph> -->
                    </graphs>
                 </configuration>
             </plugin>
-             -->
+             
             
             <!--<plugin>
                 <groupId>uk.co.automatictester</groupId>
